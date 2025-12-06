@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una Storia d'Amore - Due Bruchi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-pink: #ff6b9d;
+            --primary-blue: #4a9eff;
+            --bg-gradient-start: #ffeef8;
+            --bg-gradient-end: #e8f4ff;
+            --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.15);
+            --shadow-float: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .storybook-container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #a1c4fd 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            animation: shimmer 6s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-container {
+            padding: 20px 40px 10px;
+            background: linear-gradient(to bottom, white, #fafafa);
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-pink) 0%, var(--primary-blue) 100%);
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: progressShine 2s linear infinite;
+        }
+
+        @keyframes progressShine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .episode-counter {
+            text-align: center;
+            color: #666;
+            margin-top: 10px;
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .episode-container {
+            padding: 50px 40px;
+            min-height: 600px;
+            position: relative;
+        }
+
+        .episode {
+            display: none;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .episode.active {
+            display: block;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .month-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .month-date {
+            font-size: 0.9em;
+            color: #999;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .episode-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 2.2em;
+            background: linear-gradient(135deg, var(--primary-pink), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 10px 0;
+            line-height: 1.2;
+        }
+
+        .scene {
+            background: linear-gradient(to bottom, #e8f5ff 0%, #fff4f0 100%);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 30px 0;
+            position: relative;
+            min-height: 350px;
+            overflow: hidden;
+            box-shadow: var(--shadow-float);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scene::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
+            pointer-events: none;
+        }
+
+        /* Caterpillar Styles - Disney Pixar Inspired */
+        .caterpillar-stage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .caterpillar {
+            position: relative;
+            animation: breathe 4s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+        }
+
+        .caterpillar-left {
+            animation-delay: 0s;
+        }
+
+        .caterpillar-right {
+            animation-delay: 2s;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.02); }
+        }
+
+        .caterpillar-body {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .segment {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin: -6px;
+            position: relative;
+            box-shadow: 
+                inset 0 -3px 8px rgba(0,0,0,0.1),
+                0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .pink {
+            background: linear-gradient(135deg, #ffb3d9 0%, #ff6b9d 50%, #ff8fb3 100%);
+            border: 3px solid #ff4081;
+        }
+
+        .blue {
+            background: linear-gradient(135deg, #a1d4ff 0%, #4a9eff 50%, #7ebfff 100%);
+            border: 3px solid #2196f3;
+        }
+
+        .head {
+            width: 45px !important;
+            height: 45px !important;
+            position: relative;
+            z-index: 10;
+        }
+
+        .head::before {
+            content: '';
+            position: absolute;
+            top: 15%;
+            left: 15%;
+            width: 70%;
+            height: 40%;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.6), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .eye {
+            width: 10px;
+            height: 10px;
+            background: #2c3e50;
+            border-radius: 50%;
+            position: absolute;
+            top: 14px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .eye::after {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+        }
+
+        .eye-left { left: 11px; }
+        .eye-right { right: 11px; }
+
+        .antenna {
+            width: 3px;
+            height: 18px;
+            background: linear-gradient(to top, #2c3e50, #34495e);
+            position: absolute;
+            top: -12px;
+            border-radius: 2px;
+        }
+
+        .antenna-left {
+            left: 14px;
+            transform: rotate(-25deg);
+        }
+
+        .antenna-right {
+            right: 14px;
+            transform: rotate(25deg);
+        }
+
+        .antenna::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #ff6b9d, #ff4081);
+            border-radius: 50%;
+            position: absolute;
+            top: -5px;
+            left: -2.5px;
+            box-shadow: 0 2px 6px rgba(255, 107, 157, 0.5);
+        }
+
+        .smile {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 8px;
+            border: 2px solid #2c3e50;
+            border-top: none;
+            border-radius: 0 0 16px 16px;
+        }
+
+        /* Story Text */
+        .story-text {
+            text-align: center;
+            font-size: 1.15em;
+            line-height: 2;
+            color: #2c3e50;
+            margin: 30px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+            border-radius: 20px;
+            box-shadow: var(--shadow-float);
+            border: 2px solid rgba(255,255,255,0.5);
+            font-weight: 500;
+            position: relative;
+        }
+
+        .story-text::before {
+            content: '"';
+            font-size: 4em;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            color: var(--primary-pink);
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 40px 40px;
+            gap: 20px;
+            background: linear-gradient(to top, #fafafa, white);
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 700;
+            font-family: 'Quicksand', sans-serif;
+            box-shadow: var(--shadow-float);
+        }
+
+        .btn-prev, .btn-next {
+            background: linear-gradient(135deg, var(--primary-pink), var(--primary-blue));
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-prev::before, .btn-next::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-prev:hover::before, .btn-next:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-prev:hover, .btn-next:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .btn-prev:active, .btn-next:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-prev:disabled, .btn-next:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-prev:disabled:hover, .btn-next:disabled:hover {
+            transform: none;
+            box-shadow: var(--shadow-float);
+        }
+
+        /* Special Elements */
+        .heart-symbol {
+            font-size: 3em;
+            animation: heartPulse 1.5s ease-in-out infinite;
+            display: inline-block;
+            filter: drop-shadow(0 4px 8px rgba(255, 107, 157, 0.4));
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* Episode-specific scenes */
+        .popcorn-scene {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .dawn-scene {
+            background: linear-gradient(to top, #ff9a9e 0%, #fad0c4 30%, #ffeaa7 60%, #a1c4fd 100%);
+        }
+
+        .music-scene {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .cozy-scene {
+            background: linear-gradient(to bottom, #f6d365 0%, #fda085 100%);
+        }
+
+        .loki-scene {
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+        }
+
+        .storm-scene {
+            background: linear-gradient(135deg, #3a3a3a 0%, #606c88 50%, #3f4c6b 100%);
+        }
+
+        .memories-scene {
+            background: linear-gradient(to bottom, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .sky-scene {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 50%, #485563 50%, #29323c 100%);
+        }
+
+        .languages-scene {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .dinner-scene {
+            background: linear-gradient(to bottom, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        .healing-scene {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .letter-scene {
+            background: linear-gradient(to bottom, #fff5e1 0%, #ffd6a5 100%);
+        }
+
+        .future-scene {
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+        }
+
+        /* Decorative props */
+        .prop {
+            position: absolute;
+            font-size: 2.5em;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+
+        .prop-1 { top: 20%; left: 10%; animation-delay: 0s; }
+        .prop-2 { top: 30%; right: 15%; animation-delay: 1s; }
+        .prop-3 { bottom: 25%; left: 15%; animation-delay: 0.5s; }
+        .prop-4 { bottom: 30%; right: 10%; animation-delay: 1.5s; }
+
+        /* Speech bubbles */
+        .speech-bubble {
+            position: absolute;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 200px;
+            text-align: center;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid white;
+        }
+
+        .bubble-left {
+            top: -60px;
+            left: -20px;
+        }
+
+        .bubble-right {
+            top: -60px;
+            right: -20px;
+        }
+
+        /* Red thread */
+        .red-thread {
+            position: absolute;
+            width: 150px;
+            height: 2px;
+            background: #ff4444;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: threadPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes threadPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Book */
+        .book {
+            width: 200px;
+            height: 280px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 
+                0 10px 30px rgba(0,0,0,0.2),
+                inset 0 0 0 2px #e0e0e0;
+            position: relative;
+            animation: bookFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes bookFloat {
+            0%, 100% { transform: translateY(0px) rotateZ(0deg); }
+            50% { transform: translateY(-10px) rotateZ(2deg); }
+        }
+
+        .book::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #ccc, #999);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .episode-title {
+                font-size: 1.6em;
+            }
+
+            .episode-container {
+                padding: 30px 20px;
+            }
+
+            .scene {
+                padding: 30px 20px;
+                min-height: 300px;
+            }
+
+            .navigation {
+                padding: 20px;
+            }
+
+            button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="storybook-container">
+        <div class="header">
+            <h1>🦋 Una Storia d'Amore 🦋</h1>
+            <p>23 Novembre 2024 - 23 Novembre 2025</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+            <div class="episode-counter">
+                <span id="episodeCounter">Episodio 1 di 13</span>
+            </div>
+        </div>
+
+        <div class="episode-container">
+            <!-- EPISODIO 1: I Primi Passi -->
+            <div class="episode active" data-episode="1">
+                <div class="month-header">
+                    <div class="month-date">23 Novembre 2024</div>
+                    <h2 class="episode-title">I Primi Passi</h2>
+                </div>
+                <div class="scene popcorn-scene">
+                    <div class="prop prop-1">🍿</div>
+                    <div class="prop prop-2">🎬</div>
+                    <div class="prop prop-3">🍿</div>
+                    <div class="caterpillar-stage">
+                        <div class="caterpillar caterpillar-left">
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                        <span class="heart-symbol">❤️</span>
+                        <div class="caterpillar caterpillar-right">
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    In una serata di fine novembre, due piccoli bruchi si trovarono davanti a uno schermo luminoso. Pop corn croccanti, sorrisi timidi, e la magia di un film condiviso. Non sapevano ancora che quella sarebbe stata la prima di tante serate insieme, il primo passo di un viaggio meraviglioso.
+                </div>
+            </div>
+
+            <!-- EPISODIO 2: La Luce cerca Spazio -->
+            <div class="episode" data-episode="2">
+                <div class="month-header">
+                    <div class="month-date">Dicembre 2024</div>
+                    <h2 class="episode-title">La Luce cerca Spazio</h2>
+                </div>
+                <div class="scene dawn-scene">
+                    <div class="prop prop-1">🏠</div>
+                    <div class="prop prop-2">🌅</div>
+                    <div class="prop prop-4">🏠</div>
+                    <div class="caterpillar-stage" style="gap: 120px;">
+                        <div class="caterpillar caterpillar-left">
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                        <div class="caterpillar caterpillar-right">
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    Dicembre portò mattine fredde e albe luminose. Due case diverse, due finestre, ma lo stesso sole che sorgeva. Mentre la luce cercava spazio tra le nuvole d'inverno, anche i due bruchi cercavano il loro spazio nel cuore dell'altro, sapendo che presto quella distanza sarebbe stata solo un ricordo.
+                </div>
+            </div>
+
+            <!-- EPISODIO 3: Ti ritrovo nei miei sogni -->
+            <div class="episode" data-episode="3">
+                <div class="month-header">
+                    <div class="month-date">Gennaio 2025</div>
+                    <h2 class="episode-title">Ti ritrovo nei miei sogni</h2>
+                </div>
+                <div class="scene music-scene">
+                    <div class="prop prop-1">🎵</div>
+                    <div class="prop prop-2">🎶</div>
+                    <div class="prop prop-3">🎵</div>
+                    <div class="prop prop-4">🎶</div>
+                    <div class="caterpillar-stage" style="gap: 100px;">
+                        <div class="caterpillar caterpillar-left">
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                        <span class="heart-symbol">🎼</span>
+                        <div class="caterpillar caterpillar-right">
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    Gennaio portò notti silenziose dove la musica divenne il ponte tra due anime. Note che viaggiavano nell'aria, melodie che superavano la distanza. Quando le parole non bastavano, c'era sempre una canzone che li connetteva, che faceva sentire l'altro vicino anche a chilometri di distanza. La musica li ritrovava nei loro sogni.
+                </div>
+            </div>
+
+            <!-- EPISODIO 4: Perché quando siamo insieme -->
+            <div class="episode" data-episode="4">
+                <div class="month-header">
+                    <div class="month-date">Febbraio 2025</div>
+                    <h2 class="episode-title">Perché quando siamo insieme, siamo davvero insieme io e te</h2>
+                </div>
+                <div class="scene cozy-scene">
+                    <div class="prop prop-1">☕</div>
+                    <div class="prop prop-2">🍪</div>
+                    <div class="prop prop-4">☕</div>
+                    <div class="caterpillar-stage">
+                        <div class="caterpillar caterpillar-left">
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                        <span class="heart-symbol">💕</span>
+                        <div class="caterpillar caterpillar-right">
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    Febbraio regalò pomeriggi di quiete perfetta. Tisana calda tra le zampe, biscotti croccanti, e il dolce far nulla. Non servivano grandi avventure quando c'era la bellezza di stare semplicemente vicini. In quei momenti scoprirono che l'amore vero è fatto anche di silenzi confortevoli e di presenza silenziosa.
+                </div>
+            </div>
+
+            <!-- EPISODIO 5: Sei tu che tieni le tue linee -->
+            <div class="episode" data-episode="5">
+                <div class="month-header">
+                    <div class="month-date">Marzo 2025</div>
+                    <h2 class="episode-title">Sei tu che tieni le tue linee</h2>
+                </div>
+                <div class="scene loki-scene">
+                    <div class="prop prop-1" style="color: #4ade80;">✨</div>
+                    <div class="prop prop-2" style="color: #fbbf24;">⚡</div>
+                    <div class="prop prop-3" style="color: #60a5fa;">💫</div>
+                    <div class="prop prop-4" style="color: #a78bfa;">🌟</div>
+                    <div class="caterpillar-stage">
+                        <div class="caterpillar caterpillar-right" style="position: relative;">
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                        <span class="heart-symbol">👑</span>
+                        <div class="caterpillar caterpillar-left">
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    Marzo portò la primavera e con essa la consapevolezza di quanto fossero interconnesse le loro vite. Come Loki che tiene le linee temporali, lui teneva insieme i fili del loro futuro con dedizione e amore. E lei lo ammirava, grata di avere accanto qualcuno così forte, così presente, così capace di tenere insieme il loro universo condiviso.
+                </div>
+            </div>
+
+            <!-- EPISODIO 6: Hai voglia e tempo di rivedermi -->
+            <div class="episode" data-episode="6">
+                <div class="month-header">
+                    <div class="month-date">Aprile 2025</div>
+                    <h2 class="episode-title">Hai voglia e tempo di rivedermi</h2>
+                </div>
+                <div class="scene storm-scene">
+                    <div class="prop prop-1">⛈️</div>
+                    <div class="prop prop-2">💨</div>
+                    <div class="red-thread"></div>
+                    <div class="caterpillar-stage" style="gap: 80px;">
+                        <div class="caterpillar caterpillar-left" style="opacity: 0.8;">
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                        <div class="caterpillar caterpillar-right" style="opacity: 0.8;">
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    Aprile portò tempeste inaspettate che li misero alla prova. Indeboliti, tristi, separati dalla distanza. Ma anche nelle notti più buie, il filo rosso del destino li teneva legati. Nonostante tutto, nonostante la fatica, trovarono la forza di rivedersi, di ritrovarsi. Perché quando ami davvero, trovi sempre il tempo e la voglia.
+                </div>
+            </div>
+
+            <!-- EPISODIO 7: Sorridi, anche a Giugno -->
+            <div class="episode" data-episode="7">
+                <div class="month-header">
+                    <div class="month-date">Giugno 2025</div>
+                    <h2 class="episode-title">Sorridi, anche a Giugno ci sono sempre due arance che si baciano</h2>
+                </div>
+                <div class="scene memories-scene">
+                    <div class="prop prop-1">📷</div>
+                    <div class="prop prop-2">🍊</div>
+                    <div class="prop prop-3">📸</div>
+                    <div class="caterpillar-stage">
+                        <div class="caterpillar caterpillar-left" style="position: relative;">
+                            <div class="speech-bubble bubble-left">Ce ne vorrebbero altri di ricordi come questi...</div>
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                        <span class="heart-symbol">🧡</span>
+                        <div class="caterpillar caterpillar-right" style="position: relative;">
+                            <div class="speech-bubble bubble-right">Ne faremo tanti altri insieme!</div>
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    Giugno li trovò a sfogliare vecchie foto, ricordi di momenti felici. Risate condivise, sguardi complici, piccole avventure. Come due arance che si baciano al tramonto, anche loro erano uniti da una dolcezza naturale. E mentre guardavano quelle immagini, sognavano già i ricordi che avrebbero creato domani.
+                </div>
+            </div>
+
+            <!-- EPISODIO 8: Devo fare il ragù di tofu -->
+            <div class="episode" data-episode="8">
+                <div class="month-header">
+                    <div class="month-date">Luglio 2025</div>
+                    <h2 class="episode-title">Devo fare il ragù di tofu settimana prox</h2>
+                </div>
+                <div class="scene sky-scene">
+                    <div class="prop prop-1" style="left: 20%; color: white;">☁️</div>
+                    <div class="prop prop-2" style="right: 20%; color: #666;">⛈️</div>
+                    <div class="caterpillar-stage" style="gap: 200px;">
+                        <div class="caterpillar caterpillar-right">
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                        <div class="caterpillar caterpillar-left">
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    Luglio portò distanze e cieli diversi. Lui guardava un cielo azzurro dipinto da nuvole artistiche, promettendo piatti deliziosi per il loro futuro insieme. Lei, sotto cieli più scuri, aspettava con pazienza giorni migliori. Due metà dello stesso cielo, due realtà momentaneamente diverse, ma un solo cuore condiviso che batteva all'unisono.
+                </div>
+            </div>
+
+            <!-- EPISODIO 9: Il telefono senza fili -->
+            <div class="episode" data-episode="9">
+                <div class="month-header">
+                    <div class="month-date">Agosto 2025</div>
+                    <h2 class="episode-title">Il telefono senza fili</h2>
+                </div>
+                <div class="scene languages-scene">
+                    <div class="prop prop-1">🇩🇪</div>
+                    <div class="prop prop-2">🇮🇹</div>
+                    <div class="prop prop-3">❓</div>
+                    <div class="prop prop-4">💬</div>
+                    <div class="caterpillar-stage" style="gap: 120px;">
+                        <div class="caterpillar caterpillar-left" style="position: relative;">
+                            <div class="speech-bubble bubble-left">Was? 🤔</div>
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                        <div class="caterpillar caterpillar-right" style="position: relative;">
+                            <div class="speech-bubble bubble-right">Come? 🤨</div>
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    Agosto fu il mese del telefono senza fili. Lei a Berlino, lui in Italia, sembrava che parlassero lingue completamente diverse. Incomprensioni, fraintendimenti, la frustrazione della distanza che amplificava ogni piccolo malinteso. Ma anche nei momenti di maggiore confusione, l'amore restava la lingua universale che entrambi capivano perfettamente.
+                </div>
+            </div>
+
+            <!-- EPISODIO 10: Dove sei? Che ore sono? -->
+            <div class="episode" data-episode="10">
+                <div class="month-header">
+                    <div class="month-date">Settembre 2025</div>
+                    <h2 class="episode-title">Dove sei? Che ore sono?</h2>
+                </div>
+                <div class="scene dinner-scene">
+                    <div class="prop prop-1">🍽️</div>
+                    <div class="prop prop-2">🥂</div>
+                    <div class="prop prop-4">🌹</div>
+                    <div class="caterpillar-stage">
+                        <div class="caterpillar caterpillar-left" style="position: relative;">
+                            <div class="speech-bubble bubble-left">Vedrai che tornerò, meglio di prima e meno di domani</div>
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                        <span class="heart-symbol">💖</span>
+                        <div class="caterpillar caterpillar-right">
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    Settembre portò una cena speciale, con un'amica cara. In mezzo alla conversazione, lei guardò lui negli occhi e fece una promessa: "Vedrai che tornerò, meglio di prima e meno di domani." Una promessa di crescita continua, di amore che si evolve, di un futuro sempre più luminoso insieme. Ogni giorno meglio del precedente, ma mai bello come il prossimo.
+                </div>
+            </div>
+
+            <!-- EPISODIO 11: Per ogni pacca sonante -->
+            <div class="episode" data-episode="11">
+                <div class="month-header">
+                    <div class="month-date">Ottobre 2025</div>
+                    <h2 class="episode-title">Per ogni pacca sonante... mi darai decine di carezze dolci</h2>
+                </div>
+                <div class="scene healing-scene">
+                    <div class="prop prop-1">💝</div>
+                    <div class="prop prop-2">🌸</div>
+                    <div class="prop prop-3">✨</div>
+                    <div class="prop prop-4">💕</div>
+                    <div class="caterpillar-stage" style="gap: 20px;">
+                        <div class="caterpillar caterpillar-left">
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                        <span class="heart-symbol">🤗</span>
+                        <div class="caterpillar caterpillar-right">
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    Ottobre insegnò loro il potere della cura reciproca. Per ogni momento difficile, per ogni ferita, arrivavano decine di carezze dolci. Si coccolarono, si presero cura l'uno dell'altra, lenendo ogni dolore con tenerezza infinita. Scoprirono che l'amore vero è anche questo: essere il balsamo per le ferite dell'altro, il rifugio sicuro dove guarire.
+                </div>
+            </div>
+
+            <!-- EPISODIO 12: Buon... Domani! -->
+            <div class="episode" data-episode="12">
+                <div class="month-header">
+                    <div class="month-date">23 Novembre 2025</div>
+                    <h2 class="episode-title">Buon... Domani! Che strano modo di festeggiare un oggi, non Trovi?</h2>
+                </div>
+                <div class="scene letter-scene">
+                    <div class="prop prop-1">💌</div>
+                    <div class="prop prop-2">🕯️</div>
+                    <div class="prop prop-3">📖</div>
+                    <div class="prop prop-4">🎂</div>
+                    <div class="caterpillar-stage">
+                        <div class="caterpillar caterpillar-right">
+                            <div class="caterpillar-body">
+                                <div class="segment blue head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                                <div class="segment blue"></div>
+                            </div>
+                        </div>
+                        <span class="heart-symbol">❤️</span>
+                        <div class="caterpillar caterpillar-left">
+                            <div class="caterpillar-body">
+                                <div class="segment pink head">
+                                    <div class="antenna antenna-left"></div>
+                                    <div class="antenna antenna-right"></div>
+                                    <div class="eye eye-left"></div>
+                                    <div class="eye eye-right"></div>
+                                    <div class="smile"></div>
+                                </div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                                <div class="segment pink"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    E arriviamo al 23 novembre, esattamente un anno dopo. Lui la abbraccia dolcemente mentre legge una lettera scritta con il cuore. Accanto a loro, un tavolo con una candelina che celebra dodici mesi straordinari. "Buon domani," sussurra lui, perché ogni fine è solo un nuovo inizio. Che strano modo di festeggiare un oggi, ma quanto perfetto per chi sa che il meglio deve ancora venire.
+                </div>
+            </div>
+
+            <!-- EPISODIO 13: Il Futuro da Scrivere -->
+            <div class="episode" data-episode="13">
+                <div class="month-header">
+                    <div class="month-date">Oltre il 23 Novembre 2025</div>
+                    <h2 class="episode-title">Le Pagine Bianche del Domani</h2>
+                </div>
+                <div class="scene future-scene">
+                    <div class="caterpillar-stage" style="flex-direction: column; gap: 40px;">
+                        <div style="display: flex; align-items: center; gap: 30px;">
+                            <div class="caterpillar caterpillar-left">
+                                <div class="caterpillar-body">
+                                    <div class="segment pink head">
+                                        <div class="antenna antenna-left"></div>
+                                        <div class="antenna antenna-right"></div>
+                                        <div class="eye eye-left"></div>
+                                        <div class="eye eye-right"></div>
+                                        <div class="smile"></div>
+                                    </div>
+                                    <div class="segment pink"></div>
+                                    <div class="segment pink"></div>
+                                    <div class="segment pink"></div>
+                                    <div class="segment pink"></div>
+                                    <div class="segment pink"></div>
+                                    <div class="segment pink"></div>
+                                    <div class="segment pink"></div>
+                                </div>
+                            </div>
+                            <span class="heart-symbol" style="font-size: 2em;">∞</span>
+                            <div class="caterpillar caterpillar-right">
+                                <div class="caterpillar-body">
+                                    <div class="segment blue head">
+                                        <div class="antenna antenna-left"></div>
+                                        <div class="antenna antenna-right"></div>
+                                        <div class="eye eye-left"></div>
+                                        <div class="eye eye-right"></div>
+                                        <div class="smile"></div>
+                                    </div>
+                                    <div class="segment blue"></div>
+                                    <div class="segment blue"></div>
+                                    <div class="segment blue"></div>
+                                    <div class="segment blue"></div>
+                                    <div class="segment blue"></div>
+                                    <div class="segment blue"></div>
+                                    <div class="segment blue"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book"></div>
+                    </div>
+                </div>
+                <div class="story-text">
+                    E qui, davanti a un libro dalle pagine completamente bianche, i due bruchi si guardano e sorridono. Tredici mesi alle spalle, infinite pagine davanti. Ogni giorno sarà una nuova storia da scrivere insieme, ogni momento un capitolo da riempire con amore, risate, sogni e avventure. Il libro è loro, la penna è nelle loro mani. E la storia più bella... deve ancora essere scritta. 🦋✨
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button class="btn-prev" id="prevBtn" onclick="changeEpisode(-1)">← Precedente</button>
+            <button class="btn-next" id="nextBtn" onclick="changeEpisode(1)">Successivo →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentEpisode = 1;
+        const totalEpisodes = 13;
+
+        function updateEpisode() {
+            document.querySelectorAll('.episode').forEach(ep => {
+                ep.classList.remove('active');
+            });
+
+            document.querySelector(`[data-episode="${currentEpisode}"]`).classList.add('active');
+
+            document.getElementById('episodeCounter').textContent = `Episodio ${currentEpisode} di ${totalEpisodes}`;
+
+            const progress = (currentEpisode / totalEpisodes) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            document.getElementById('prevBtn').disabled = currentEpisode === 1;
+            document.getElementById('nextBtn').disabled = currentEpisode === totalEpisodes;
+
+            // Scroll to top on episode change
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function changeEpisode(direction) {
+            currentEpisode += direction;
+            if (currentEpisode < 1) currentEpisode = 1;
+            if (currentEpisode > totalEpisodes) currentEpisode = totalEpisodes;
+            updateEpisode();
+        }
+
+        // Initialize
+        updateEpisode();
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft' && currentEpisode > 1) {
+                changeEpisode(-1);
+            } else if (e.key === 'ArrowRight' && currentEpisode < totalEpisodes) {
+                changeEpisode(1);
+            }
+        });
+
+        // Touch swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50 && currentEpisode < totalEpisodes) {
+                changeEpisode(1);
+            }
+            if (touchEndX > touchStartX + 50 && currentEpisode > 1) {
+                changeEpisode(-1);
+            }
+        }
+    </script>
+</body>
+</html>
