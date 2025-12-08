@@ -32,6 +32,78 @@
             overflow-x: hidden;
         }
 
+        /* Start Overlay for Mobile */
+        .start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 154, 158, 0.95) 0%, rgba(250, 208, 196, 0.95) 50%, rgba(161, 196, 253, 0.95) 100%);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            backdrop-filter: blur(10px);
+        }
+
+        .start-overlay.active {
+            display: flex;
+        }
+
+        .start-content {
+            text-align: center;
+            color: white;
+            animation: fadeInScale 0.6s ease;
+        }
+
+        .start-content h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-content p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .start-btn {
+            background: white;
+            color: #ff6b9d;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.3em;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .start-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         .storybook-container {
             max-width: 900px;
             width: 100%;
@@ -375,6 +447,15 @@
     </style>
 </head>
 <body>
+    <!-- Mobile Start Overlay -->
+    <div id="startOverlay" class="start-overlay">
+        <div class="start-content">
+            <h2>🦋 La Nostra Storia 🦋</h2>
+            <p>Tocca per iniziare con la musica</p>
+            <button id="startButton" class="start-btn">▶️ Inizia</button>
+        </div>
+    </div>
+
     <div class="storybook-container">
         <div class="header">
             <h1>🦋 La Nostra Storia 🦋</h1>
@@ -596,6 +677,40 @@
     <script>
         let currentEpisode = 1;
         const totalEpisodes = 13;
+
+        // Detect mobile and show start overlay
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const startOverlay = document.getElementById('startOverlay');
+        const startButton = document.getElementById('startButton');
+
+        if (isMobile) {
+            startOverlay.classList.add('active');
+        }
+
+        // Start button - guarantees music plays on mobile
+        startButton.addEventListener('click', function() {
+            const backgroundMusic = document.getElementById('backgroundMusic');
+            backgroundMusic.volume = 0.2;
+            backgroundMusic.play().then(() => {
+                const musicIcon = document.getElementById('musicIcon');
+                const musicText = document.getElementById('musicText');
+                const musicToggle = document.getElementById('musicToggle');
+                musicIcon.textContent = '🎶';
+                musicText.textContent = 'Pausa Musica';
+                musicToggle.classList.add('playing');
+                isPlaying = true;
+                
+                // Hide overlay with fade out
+                startOverlay.style.opacity = '0';
+                startOverlay.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    startOverlay.style.display = 'none';
+                }, 500);
+            }).catch(error => {
+                console.log('Errore avvio musica:', error);
+                startOverlay.style.display = 'none';
+            });
+        });
 
         // Music Player Functionality
         const musicToggle = document.getElementById('musicToggle');
