@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Una Storia d'Amore - Due Bruchi</title>
+    <title>La Nostra Storia - Dal Bruco alla Farfalla</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -48,30 +48,14 @@
             padding: 40px 30px;
             text-align: center;
             position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-            animation: shimmer 6s linear infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         .header h1 {
             font-family: 'Fredoka', sans-serif;
             font-size: 2.5em;
+            font-weight: 700;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
             position: relative;
             z-index: 1;
         }
@@ -137,73 +121,55 @@
         }
 
         .progress-container {
-            padding: 20px 40px 10px;
-            background: linear-gradient(to bottom, white, #fafafa);
+            padding: 20px 30px;
+            background: linear-gradient(135deg, #ffeef8 0%, #e8f4ff 100%);
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .progress-bar {
-            height: 12px;
-            background: #e0e0e0;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-pink) 0%, var(--primary-blue) 100%);
-            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            animation: progressShine 2s linear infinite;
-        }
-
-        @keyframes progressShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            background: linear-gradient(90deg, var(--primary-pink), var(--primary-blue));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            box-shadow: 0 2px 8px rgba(255, 107, 157, 0.4);
         }
 
         .episode-counter {
             text-align: center;
-            color: #666;
             margin-top: 10px;
-            font-size: 1em;
             font-weight: 600;
+            color: #666;
+            font-size: 0.95em;
         }
 
-        .episode-container {
-            padding: 50px 40px;
-            min-height: 600px;
-            position: relative;
+        .content {
+            padding: 40px 30px;
         }
 
         .episode {
             display: none;
-            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.5s ease;
         }
 
         .episode.active {
             display: block;
         }
 
-        @keyframes fadeInUp {
-            from { 
-                opacity: 0; 
-                transform: translateY(30px);
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
-            to { 
-                opacity: 1; 
+            to {
+                opacity: 1;
                 transform: translateY(0);
             }
         }
@@ -214,335 +180,139 @@
         }
 
         .month-date {
-            font-size: 0.9em;
-            color: #999;
+            font-size: 1.1em;
+            color: #888;
             font-weight: 500;
-            letter-spacing: 1px;
+            margin-bottom: 15px;
         }
 
         .episode-title {
             font-family: 'Fredoka', sans-serif;
-            font-size: 2.2em;
-            background: linear-gradient(135deg, var(--primary-pink), var(--primary-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 10px 0;
-            line-height: 1.2;
+            font-size: 2em;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
 
         .scene {
-            background: linear-gradient(to bottom, #e8f5ff 0%, #fff4f0 100%);
-            border-radius: 25px;
-            padding: 40px;
             margin: 30px 0;
-            position: relative;
-            min-height: 400px;
-            overflow: hidden;
-            box-shadow: var(--shadow-float);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
         }
 
-        .scene::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
-            background: linear-gradient(to top, rgba(0,0,0,0.05), transparent);
-            pointer-events: none;
-        }
-
-        /* Episode Image Styles */
         .episode-image {
-            width: 100%;
-            max-width: 600px;
+            max-width: 100%;
             height: auto;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 2;
-            animation: imageFloat 3s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
-        @keyframes imageFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .image-placeholder {
-            width: 100%;
-            max-width: 600px;
-            height: 400px;
-            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            color: #999;
-            font-size: 1.2em;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .image-placeholder::before {
-            content: '🎨';
-            font-size: 4em;
-            margin-bottom: 20px;
-        }
-
-        /* Story Text */
         .story-text {
-            text-align: center;
             font-size: 1.15em;
-            line-height: 2;
-            color: #2c3e50;
-            margin: 30px 0;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
-            border-radius: 20px;
-            box-shadow: var(--shadow-float);
-            border: 2px solid rgba(255,255,255,0.5);
-            font-weight: 500;
-            position: relative;
+            line-height: 1.8;
+            color: #555;
+            text-align: justify;
+            margin-top: 30px;
+            padding: 0 10px;
         }
 
-        .story-text::before {
-            content: '"';
-            font-size: 4em;
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            color: var(--primary-pink);
-            opacity: 0.3;
-            font-family: Georgia, serif;
-        }
-
-        /* Navigation */
         .navigation {
             display: flex;
             justify-content: space-between;
-            padding: 20px 40px 40px;
-            gap: 20px;
-            background: linear-gradient(to top, #fafafa, white);
+            gap: 15px;
+            margin-top: 40px;
+            padding: 0 10px;
         }
 
-        button {
-            padding: 15px 35px;
-            font-size: 1.1em;
+        .navigation button {
+            flex: 1;
+            padding: 15px 25px;
+            font-size: 1em;
+            font-weight: 600;
             border: none;
-            border-radius: 30px;
+            border-radius: 15px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 700;
+            transition: all 0.3s ease;
             font-family: 'Quicksand', sans-serif;
-            box-shadow: var(--shadow-float);
         }
 
-        .btn-prev, .btn-next {
-            background: linear-gradient(135deg, var(--primary-pink), var(--primary-blue));
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-prev::before, .btn-next::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn-prev:hover::before, .btn-next:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn-prev:hover, .btn-next:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        }
-
-        .btn-prev:active, .btn-next:active {
-            transform: translateY(-1px);
-        }
-
-        .btn-prev:disabled, .btn-next:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-prev:disabled:hover, .btn-next:disabled:hover {
-            transform: none;
-            box-shadow: var(--shadow-float);
-        }
-
-        /* Episode-specific scenes */
-        .popcorn-scene {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        }
-
-        .dawn-scene {
-            background: linear-gradient(to top, #ff9a9e 0%, #fad0c4 30%, #ffeaa7 60%, #a1c4fd 100%);
-        }
-
-        .music-scene {
+        .btn-prev {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .cozy-scene {
-            background: linear-gradient(to bottom, #f6d365 0%, #fda085 100%);
-        }
-
-        .loki-scene {
-            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-        }
-
-        .storm-scene {
-            background: linear-gradient(135deg, #3a3a3a 0%, #606c88 50%, #3f4c6b 100%);
-        }
-
-        .memories-scene {
-            background: linear-gradient(to bottom, #ffecd2 0%, #fcb69f 100%);
-        }
-
-        .sky-scene {
-            background: linear-gradient(to right, #4facfe 0%, #00f2fe 50%, #485563 50%, #29323c 100%);
-        }
-
-        .languages-scene {
+        .btn-next {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
         }
 
-        .dinner-scene {
-            background: linear-gradient(to bottom, #ff9a9e 0%, #fecfef 100%);
+        .navigation button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .healing-scene {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        .navigation button:active:not(:disabled) {
+            transform: translateY(0);
         }
 
-        .letter-scene {
-            background: linear-gradient(to bottom, #fff5e1 0%, #ffd6a5 100%);
+        .navigation button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
-        .future-scene {
-            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-        }
-
-        /* Responsive */
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .header h1 {
-                font-size: 1.6em;
+                font-size: 2em;
             }
 
             .header p {
-                font-size: 0.9em;
+                font-size: 1em;
             }
 
             .episode-title {
-                font-size: 1.4em;
-                line-height: 1.3;
+                font-size: 1.5em;
             }
 
-            .month-date {
-                font-size: 0.8em;
-            }
-
-            .episode-container {
-                padding: 30px 15px;
-            }
-
-            .scene {
-                padding: 20px 15px;
-                min-height: auto;
-            }
-
-            .episode-image {
-                max-width: 100%;
-                border-radius: 15px;
-            }
-
-            .image-placeholder {
-                height: 300px;
-            }
-
-            /* Testo più leggibile */
             .story-text {
-                font-size: 1em;
-                line-height: 1.7;
-                padding: 20px 15px;
-                margin: 20px 0;
+                font-size: 1.05em;
+                text-align: left;
             }
 
-            .story-text::before {
-                font-size: 3em;
-                top: -5px;
-                left: 10px;
+            .content {
+                padding: 30px 20px;
             }
 
-            /* Navigazione */
-            .navigation {
-                padding: 15px;
-                gap: 10px;
-            }
-
-            button {
+            .navigation button {
                 padding: 12px 20px;
                 font-size: 0.95em;
             }
-
-            /* Progress bar */
-            .progress-container {
-                padding: 15px 20px 10px;
-            }
-
-            .episode-counter {
-                font-size: 0.9em;
-            }
         }
 
-        /* Extra small devices */
         @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
             .header h1 {
-                font-size: 1.4em;
+                font-size: 1.75em;
+            }
+
+            .content {
+                padding: 25px 15px;
             }
 
             .episode-title {
-                font-size: 1.2em;
+                font-size: 1.3em;
             }
 
             .story-text {
-                font-size: 0.95em;
-                padding: 15px 12px;
-            }
-
-            .scene {
-                padding: 15px 10px;
-            }
-
-            .episode-image {
-                border-radius: 12px;
-            }
-
-            .image-placeholder {
-                height: 250px;
                 font-size: 1em;
-            }
-
-            button {
-                padding: 10px 18px;
-                font-size: 0.9em;
             }
         }
     </style>
@@ -567,17 +337,15 @@
         </div>
 
         <div class="progress-container">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressBar"></div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar" id="progressBar" style="width: 7.7%;"></div>
             </div>
-            <div class="episode-counter">
-                <span id="episodeCounter">Episodio 1 di 13</span>
-            </div>
+            <div class="episode-counter" id="episodeCounter">Episodio 1 di 13</div>
         </div>
 
-        <div class="episode-container">
-            <!-- EPISODIO 1: Il Cinema e i Fazzoletti -->
-            <div class="episodeactive" data-episode="1">
+        <div class="content">
+            <!-- EPISODIO 1 -->
+            <div class="episode active" data-episode="1">
                 <div class="month-header">
                     <div class="month-date">23 Novembre 2024</div>
                     <h2 class="episode-title">Il Cinema e i Fazzoletti</h2>
@@ -590,177 +358,7 @@
                 </div>
             </div>
 
-            : La Luce cerca Spazio -->
-            <div class="episode" data-episode="2">
-                <div class="month-header">
-                    <div class="month-date">Dicembre 2024</div>
-                    <h2 class="episode-title">La Luce cerca Spazio</h2>
-                </div>
-                <div class="scene dawn-scene">
-                    <img src="episode_2.png" alt="Due bruchi che guardano l'alba da case diverse" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    Dicembre portò mattine fredde e albe luminose. Due case diverse, due finestre, ma lo stesso sole che sorgeva. Mentre la luce cercava spazio tra le nuvole d'inverno, anche i due bruchi cercavano il loro spazio nel cuore dell'altro, sapendo che presto quella distanza sarebbe stata solo un ricordo.
-                </div>
-            </div>
-
-            <!-- EPISODIO 3: In Una Dimensione Parallela -->
-            <div class="episode" data-episode="3">
-                <div class="month-header">
-                    <div class="month-date">1 Dicembre 2024</div>
-                    <h2 class="episode-title">In Una Dimensione Parallela</h2>
-                </div>
-                <div class="scene">
-                    <img src="episode_3.png" alt="In Una Dimensione Parallela" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    "In una dimensione parallela sono stata abbracciata a te tutta la notte." - Parole che facevano male e bene insieme. Lei immaginava abbracci in altre dimensioni. "Quando mi parli di dimensione parallela, ora mi viene in mente Interstellar ancora e cosa combina il tempo" scrisse lui. Due bruchi separati dalla realtà, ma uniti in qualche piega dell'universo. L'amore vero non ha bisogno di essere toccato per esistere.
-                </div>
-            </div>
-
-            : Perché quando siamo insieme -->
-            <div class="episode" data-episode="4">
-                <div class="month-header">
-                    <div class="month-date">Febbraio 2025</div>
-                    <h2 class="episode-title">Perché quando siamo insieme, siamo davvero insieme io e te</h2>
-                </div>
-                <div class="scene cozy-scene">
-                    <img src="episode_4.png" alt="Due bruchi con tisana e biscotti" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    Febbraio regalò pomeriggi di quiete perfetta. Tisana calda tra le zampe, biscotti croccanti, e il dolce far nulla. Non servivano grandi avventure quando c'era la bellezza di stare semplicemente vicini. In quei momenti scoprirono che l'amore vero è fatto anche di silenzi confortevoli e di presenza silenziosa.
-                </div>
-            </div>
-
-            <!-- EPISODIO 5: Se la Mia Situazione Fosse Diversa -->
-            <div class="episode" data-episode="5">
-                <div class="month-header">
-                    <div class="month-date">15 Dicembre 2024</div>
-                    <h2 class="episode-title">Se la Mia Situazione Fosse Diversa</h2>
-                </div>
-                <div class="scene">
-                    <img src="episode_5.png" alt="Se la Mia Situazione Fosse Diversa" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    "Questo messaggio è stato eliminato." "Avevo scritto, poi ho cancellato." "Se la mia situazione fosse diversa saremmo già finiti a letto. Ti avrei mangiato." - Quel giorno lei trovò il coraggio di dire la verità. Parole cancellate e poi riscritte. "Quando sarai uscito dalla tua grotta se mi vorrai ci sarò" scrisse lei. Due bruchi con vite complesse, ma con sentimenti cristallini. L'attesa non era un ostacolo, ma parte del loro percorso.
-                </div>
-            </div>
-
-            : Hai voglia e tempo di rivedermi -->
-            <div class="episode" data-episode="6">
-                <div class="month-header">
-                    <div class="month-date">Aprile 2025</div>
-                    <h2 class="episode-title">Hai voglia e tempo di rivedermi</h2>
-                </div>
-                <div class="scene storm-scene">
-                    <img src="episode_6.png" alt="Due bruchi uniti dal filo rosso nella tempesta" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    Aprile portò tempeste inaspettate che li misero alla prova. Indeboliti, tristi, separati dalla distanza. Ma anche nelle notti più buie, il filo rosso del destino li teneva legati. Nonostante tutto, nonostante la fatica, trovarono la forza di rivedersi, di ritrovarsi. Perché quando ami davvero, trovi sempre il tempo e la voglia.
-                </div>
-            </div>
-
-            <!-- EPISODIO 7: Buongiorno ☀️ -->
-            <div class="episode" data-episode="7">
-                <div class="month-header">
-                    <div class="month-date">14 Febbraio 2025</div>
-                    <h2 class="episode-title">Buongiorno ☀️</h2>
-                </div>
-                <div class="scene">
-                    <img src="episode_7.png" alt="Buongiorno ☀️" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    "Buongiorno Franci ☀️" - Ogni mattina iniziava così. Un sole, un saluto, una promessa di esserci. San Valentino arrivò, ma loro non ne avevano bisogno. "Ti amo. Dal primo giorno (e non ho bisogno di San Valentino per dimostrartelo)" aveva scritto lui. L'amore vero non aspetta le date sul calendario. Si manifesta nel "buongiorno ☀️" quotidiano, nei messaggi all'alba, nei "come stai?" sinceri. Ogni giorno può essere San Valentino quando ami davvero.
-                </div>
-            </div>
-
-            : Devo fare il ragù di tofu -->
-            <div class="episode" data-episode="8">
-                <div class="month-header">
-                    <div class="month-date">Luglio 2025</div>
-                    <h2 class="episode-title">Devo fare il ragù di tofu settimana prox</h2>
-                </div>
-                <div class="scene sky-scene">
-                    <img src="episode_8.png" alt="Due bruchi sotto cieli diversi" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    Luglio portò distanze e cieli diversi. Lui guardava un cielo azzurro dipinto da nuvole artistiche, promettendo piatti deliziosi per il loro futuro insieme. Lei, sotto cieli più scuri, aspettava con pazienza giorni migliori. Due metà dello stesso cielo, due realtà momentaneamente diverse, ma un solo cuore condiviso che batteva all'unisono.
-                </div>
-            </div>
-
-            <!-- EPISODIO 9: Vedrai che Tornerò -->
-            <div class="episode" data-episode="9">
-                <div class="month-header">
-                    <div class="month-date">20 Maggio 2025</div>
-                    <h2 class="episode-title">Vedrai che Tornerò</h2>
-                </div>
-                <div class="scene">
-                    <img src="episode_9.png" alt="Vedrai che Tornerò" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    "Vedrai che tornerò, meglio di prima e meno di domani." - Questa frase divenne il loro mantra. "Meglio di prima" significava crescita continua. "Meno di domani" significava che il meglio doveva ancora venire. "Ogni giorno, ogni domani per me significa essere una persona migliore di ieri ed ogni volta che tornerò da te sarà per donarti una versione più bella del presente" le aveva scritto lui. Si stavano trasformando. Il bozzolo stava prendendo forma.
-                </div>
-            </div>
-
-            : Dove sei? Che ore sono? -->
-            <div class="episode" data-episode="10">
-                <div class="month-header">
-                    <div class="month-date">Settembre 2025</div>
-                    <h2 class="episode-title">Dove sei? Che ore sono?</h2>
-                </div>
-                <div class="scene dinner-scene">
-                    <img src="episode_10.png" alt="Cena con i bruchi" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    Settembre portò una cena speciale, con un'amica cara. In mezzo alla conversazione, lei guardò lui negli occhi e fece una promessa: "Vedrai che tornerò, meglio di prima e meno di domani." Una promessa di crescita continua, di amore che si evolve, di un futuro sempre più luminoso insieme. Ogni giorno meglio del precedente, ma mai bello come il prossimo.
-                </div>
-            </div>
-
-            <!-- EPISODIO 11: Grazie -->
-            <div class="episode" data-episode="11">
-                <div class="month-header">
-                    <div class="month-date">15 Ottobre 2025</div>
-                    <h2 class="episode-title">Grazie</h2>
-                </div>
-                <div class="scene">
-                    <img src="episode_11.png" alt="Grazie" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    "Buongiorno Fabio, grazie dei tuoi audio. Ho dormito finalmente più del solito." - Ottobre li trovò più sereni. Lei aveva iniziato a dormire meglio. "Grazie" era diventata la parola più ricorrente. Grazie per gli audio, grazie per la pazienza, grazie per esserci, grazie per aspettare, grazie per capire. Avevano capito che l'amore vero è fatto anche di riconoscere i doni che l'altro ci fa. Ogni "grazie" era un mattone della loro casa.
-                </div>
-            </div>
-
-            : Buon... Domani! -->
-            <div class="episode" data-episode="12">
-                <div class="month-header">
-                    <div class="month-date">23 Novembre 2025</div>
-                    <h2 class="episode-title">Buon... Domani! Che strano modo di festeggiare un oggi, non Trovi?</h2>
-                </div>
-                <div class="scene letter-scene">
-                    <img src="episode_12.png" alt="Bruco che legge lettera e abbraccia" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    E arriviamo al 23 novembre, esattamente un anno dopo. Lui la abbraccia dolcemente mentre legge una lettera scritta con il cuore. Accanto a loro, un tavolo con una candelina che celebra dodici mesi straordinari. "Buon domani," sussurra lui, perché ogni fine è solo un nuovo inizio. Che strano modo di festeggiare un oggi, ma quanto perfetto per chi sa che il meglio deve ancora venire.
-                </div>
-            </div>
-
-            <!-- EPISODIO 13: Buon Compleanno - La Metamorfosi -->
-            <div class="episode" data-episode="13">
-                <div class="month-header">
-                    <div class="month-date">20 Dicembre 2025</div>
-                    <h2 class="episode-title">Buon Compleanno - La Metamorfosi</h2>
-                </div>
-                <div class="scene">
-                    <img src="episode_13.png" alt="Buon Compleanno - La Metamorfosi" class="episode-image" />
-                </div>
-                <div class="story-text">
-                    20 dicembre 2025. Il suo compleanno. Ma anche qualcosa di più grande. Lui arrivò con un regalo speciale - un tag NFC in un ciondolo a forma di bozzolo. "Avvicinalo al telefono" disse. Apparve la loro storia. 13 episodi. 13 mesi. Due bruchi che attraversavano stagioni ed emozioni. Mentre leggevano, sentirono qualcosa cambiare. Il bozzolo si aprì. Non erano più gli stessi bruchi nervosi del cinema. "Guarda" sussurrò lui, indicando il cielo. Due farfalle volavano nel tramonto. "Siamo noi" disse lei con gli occhi lucidi. "La storia dei bruchi è finita. Ma la storia delle farfalle... sta solo iniziando." Si abbracciarono. Per la prima volta, l'abbraccio era reale. Presente. "Buon compleanno, amore mio" disse lui. "Buon primo giorno, farfalla mia" rispose lei. E volarono. Insieme. Per sempre. ∞🦋
-                </div>
-            </div>
-
-            </div>
-
-        <div class="navigation">2: 133 Messaggi in Un Giorno -->
+            <!-- EPISODIO 2 -->
             <div class="episode" data-episode="2">
                 <div class="month-header">
                     <div class="month-date">30 Novembre 2024</div>
@@ -774,9 +372,164 @@
                 </div>
             </div>
 
-            
-            <button class="btn-prev" id="prevBtn" onclick="changeEpisode(-1)">← Precedente</button>
-            <button class="btn-next" id="nextBtn" onclick="changeEpisode(1)">Successivo →</button>
+            <!-- EPISODIO 3 -->
+            <div class="episode" data-episode="3">
+                <div class="month-header">
+                    <div class="month-date">1 Dicembre 2024</div>
+                    <h2 class="episode-title">In Una Dimensione Parallela</h2>
+                </div>
+                <div class="scene">
+                    <img src="episode_3.png" alt="In Una Dimensione Parallela" class="episode-image" />
+                </div>
+                <div class="story-text">
+                    "In una dimensione parallela sono stata abbracciata a te tutta la notte." - Parole che facevano male e bene insieme. Lei immaginava abbracci in altre dimensioni. "Quando mi parli di dimensione parallela, ora mi viene in mente Interstellar ancora e cosa combina il tempo" scrisse lui. Due bruchi separati dalla realtà, ma uniti in qualche piega dell'universo. L'amore vero non ha bisogno di essere toccato per esistere.
+                </div>
+            </div>
+
+            <!-- EPISODIO 4 -->
+            <div class="episode" data-episode="4">
+                <div class="month-header">
+                    <div class="month-date">10 Dicembre 2024</div>
+                    <h2 class="episode-title">Adoro i Tuoi Audiolibri</h2>
+                </div>
+                <div class="scene">
+                    <img src="episode_4.png" alt="Adoro i Tuoi Audiolibri" class="episode-image" />
+                </div>
+                <div class="story-text">
+                    "Buongiorno Fabio, adoro i tuoi audiolibri, lo sai. Sì, c'è da raccontarsi, da parlare per ore." - Lui aveva iniziato a mandarle vocali lunghi. Pezzi di anima registrati con la sua voce. Lei li adorava, li ascoltava e riascoltava. "Sono contento che apprezzi queste mie parole" rispondeva lui. La voce portava con sé timbri, pause, respiri. Ogni audio era un abbraccio sonoro, ogni ascolto era intimità rubata alla distanza.
+                </div>
+            </div>
+
+            <!-- EPISODIO 5 -->
+            <div class="episode" data-episode="5">
+                <div class="month-header">
+                    <div class="month-date">15 Dicembre 2024</div>
+                    <h2 class="episode-title">Se la Mia Situazione Fosse Diversa</h2>
+                </div>
+                <div class="scene">
+                    <img src="episode_5.png" alt="Se la Mia Situazione Fosse Diversa" class="episode-image" />
+                </div>
+                <div class="story-text">
+                    "Questo messaggio è stato eliminato." "Avevo scritto, poi ho cancellato." "Se la mia situazione fosse diversa saremmo già finiti a letto. Ti avrei mangiato." - Quel giorno lei trovò il coraggio di dire la verità. Parole cancellate e poi riscritte. "Quando sarai uscito dalla tua grotta se mi vorrai ci sarò" scrisse lei. Due bruchi con vite complesse, ma con sentimenti cristallini. L'attesa non era un ostacolo, ma parte del loro percorso.
+                </div>
+            </div>
+
+            <!-- EPISODIO 6 -->
+            <div class="episode" data-episode="6">
+                <div class="month-header">
+                    <div class="month-date">7 Gennaio 2025</div>
+                    <h2 class="episode-title">Ti Immagino Mentre Dormi</h2>
+                </div>
+                <div class="scene">
+                    <img src="episode_6.png" alt="Ti Immagino Mentre Dormi" class="episode-image" />
+                </div>
+                <div class="story-text">
+                    "Ti immagino mentre dormi. Mi è sempre piaciuto guardare le persone che dormono. Si vedono cose che da svegli non mostrano." - Lei amava guardare le persone dormire. C'è qualcosa di puro in un volto che dorme. Lui parlava della rete di Wyrd e di Dagaz. "Sono più convinto di farmi un secondo tatuaggio" scrisse. "Da quando ho aperto gli occhi mi è rimasta sempre voglia...di te." La voglia stava diventando bisogno.
+                </div>
+            </div>
+
+            <!-- EPISODIO 7 -->
+            <div class="episode" data-episode="7">
+                <div class="month-header">
+                    <div class="month-date">14 Febbraio 2025</div>
+                    <h2 class="episode-title">Buongiorno ☀️</h2>
+                </div>
+                <div class="scene">
+                    <img src="episode_7.png" alt="Buongiorno" class="episode-image" />
+                </div>
+                <div class="story-text">
+                    "Buongiorno Franci ☀️" - Ogni mattina iniziava così. Un sole, un saluto, una promessa di esserci. San Valentino arrivò, ma loro non ne avevano bisogno. "Ti amo. Dal primo giorno (e non ho bisogno di San Valentino per dimostrartelo)" aveva scritto lui. L'amore vero non aspetta le date sul calendario. Si manifesta nel "buongiorno ☀️" quotidiano, nei messaggi all'alba, nei "come stai?" sinceri. Ogni giorno può essere San Valentino quando ami davvero.
+                </div>
+            </div>
+
+            <!-- EPISODIO 8 -->
+            <div class="episode" data-episode="8">
+                <div class="month-header">
+                    <div class="month-date">15 Marzo 2025</div>
+                    <h2 class="episode-title">Ricordami di Chiederti Una Cosa</h2>
+                </div>
+                <div class="scene">
+                    <img src="episode_8.png" alt="Ricordami di Chiederti Una Cosa" class="episode-image" />
+                </div>
+                <div class="story-text">
+                    "Quando saremo vis a vis, ricordami di chiederti una cosa (non c'entra con Celin)" - La primavera portò promesse di incontri. Ogni conversazione aveva le sue parentesi - "(quando ci vedremo)", "(ricordami di dirti)". Promesse in sospeso come regali incartati. Sapevano che quando si sarebbero guardati negli occhi senza schermo, avrebbero avuto mille cose da dirsi. E forse non avrebbero detto nulla. Solo si sarebbero abbracciati. E sarebbe bastato.
+                </div>
+            </div>
+
+            <!-- EPISODIO 9 -->
+            <div class="episode" data-episode="9">
+                <div class="month-header">
+                    <div class="month-date">20 Maggio 2025</div>
+                    <h2 class="episode-title">Vedrai che Tornerò</h2>
+                </div>
+                <div class="scene">
+                    <img src="episode_9.png" alt="Vedrai che Tornerò" class="episode-image" />
+                </div>
+                <div class="story-text">
+                    "Vedrai che tornerò, meglio di prima e meno di domani." - Questa frase divenne il loro mantra. "Meglio di prima" significava crescita continua. "Meno di domani" significava che il meglio doveva ancora venire. "Ogni giorno, ogni domani per me significa essere una persona migliore di ieri ed ogni volta che tornerò da te sarà per donarti una versione più bella del presente" le aveva scritto lui. Si stavano trasformando. Il bozzolo stava prendendo forma.
+                </div>
+            </div>
+
+            <!-- EPISODIO 10 -->
+            <div class="episode" data-episode="10">
+                <div class="month-header">
+                    <div class="month-date">21 Giugno 2025</div>
+                    <h2 class="episode-title">La Luce Cerca Spazio</h2>
+                </div>
+                <div class="scene">
+                    <img src="episode_10.png" alt="La Luce Cerca Spazio" class="episode-image" />
+                </div>
+                <div class="story-text">
+                    Il 21 giugno, il giorno più lungo dell'anno. La luce aveva trovato il suo spazio massimo. E anche loro avevano trovato il loro ritmo. "Come hai detto 'Vedrai che dopo la tempesta c'è sempre il sole'... io ci credo. Non voglio essere la tempesta per te, ma solo la luce per giorni migliori" le aveva scritto lui. Erano diventati l'uno la luce dell'altro. Due bruchi che camminavano verso la luce, insieme.
+                </div>
+            </div>
+
+            <!-- EPISODIO 11 -->
+            <div class="episode" data-episode="11">
+                <div class="month-header">
+                    <div class="month-date">15 Ottobre 2025</div>
+                    <h2 class="episode-title">Grazie</h2>
+                </div>
+                <div class="scene">
+                    <img src="episode_11.png" alt="Grazie" class="episode-image" />
+                </div>
+                <div class="story-text">
+                    "Buongiorno Fabio, grazie dei tuoi audio. Ho dormito finalmente più del solito." - Ottobre li trovò più sereni. Lei aveva iniziato a dormire meglio. "Grazie" era diventata la parola più ricorrente. Grazie per gli audio, grazie per la pazienza, grazie per esserci, grazie per aspettare, grazie per capire. Avevano capito che l'amore vero è fatto anche di riconoscere i doni che l'altro ci fa. Ogni "grazie" era un mattone della loro casa.
+                </div>
+            </div>
+
+            <!-- EPISODIO 12 -->
+            <div class="episode" data-episode="12">
+                <div class="month-header">
+                    <div class="month-date">5 Dicembre 2025</div>
+                    <h2 class="episode-title">Questo Tuo Lato Non L'Ho Mai Visto</h2>
+                </div>
+                <div class="scene">
+                    <img src="episode_12.png" alt="Questo Tuo Lato Non L'Ho Mai Visto" class="episode-image" />
+                </div>
+                <div class="story-text">
+                    "Buongiorno Fabio. Questo tuo lato non l'ho mai visto, dov'è?" - Dopo più di un anno insieme, continuavano a scoprirsi. Ogni giorno lui mostrava un lato nuovo. Lei si meravigliava ancora, si innamorava di nuovo. "Come fai a sorprendermi ancora?" gli chiedeva. Le persone vere sono come libri infiniti - puoi leggerli tutta la vita e scoprire sempre nuove storie. Mancavano pochi giorni al momento perfetto. Al giorno della metamorfosi.
+                </div>
+            </div>
+
+            <!-- EPISODIO 13 -->
+            <div class="episode" data-episode="13">
+                <div class="month-header">
+                    <div class="month-date">20 Dicembre 2025</div>
+                    <h2 class="episode-title">Buon Compleanno - La Metamorfosi 🦋</h2>
+                </div>
+                <div class="scene">
+                    <img src="episode_13.png" alt="La Metamorfosi" class="episode-image" />
+                </div>
+                <div class="story-text">
+                    20 dicembre 2025. Il suo compleanno. Ma anche qualcosa di più grande. Lui arrivò con un regalo speciale - un tag NFC in un ciondolo a forma di bozzolo. "Avvicinalo al telefono" disse. Apparve la loro storia. 13 episodi. 13 mesi. Due bruchi che attraversavano stagioni ed emozioni. Mentre leggevano, sentirono qualcosa cambiare. Il bozzolo si aprì. Non erano più gli stessi bruchi nervosi del cinema. "Guarda" sussurrò lui, indicando il cielo. Due farfalle volavano nel tramonto. "Siamo noi" disse lei con gli occhi lucidi. "La storia dei bruchi è finita. Ma la storia delle farfalle... sta solo iniziando." Si abbracciarono. Per la prima volta, l'abbraccio era reale. Presente. "Buon compleanno, amore mio" disse lui. "Buon primo giorno, farfalla mia" rispose lei. E volarono. Insieme. Per sempre. ∞🦋
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="btn-prev" id="prevBtn" onclick="changeEpisode(-1)">← Precedente</button>
+                <button class="btn-next" id="nextBtn" onclick="changeEpisode(1)">Successivo →</button>
+            </div>
         </div>
     </div>
 
