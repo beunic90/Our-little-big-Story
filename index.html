@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Nostra Storia - Dal Bruco alla Farfalla</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -22,7 +22,7 @@
         }
 
         body {
-            font-family: 'Quicksand', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             min-height: 100vh;
             display: flex;
@@ -51,7 +51,7 @@
         }
 
         .header h1 {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Poppins', sans-serif;
             font-size: 2.5em;
             font-weight: 700;
             margin-bottom: 10px;
@@ -187,7 +187,7 @@
         }
 
         .episode-title {
-            font-family: 'Fredoka', sans-serif;
+            font-family: 'Poppins', sans-serif;
             font-size: 2em;
             color: #333;
             font-weight: 600;
@@ -232,7 +232,7 @@
             border-radius: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: 'Quicksand', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         .btn-prev {
@@ -630,25 +630,38 @@
             }
         });
 
-        // Touch swipe support for mobile
+        // Touch swipe support for mobile - ONLY horizontal
         let touchStartX = 0;
         let touchEndX = 0;
+        let touchStartY = 0;
+        let touchEndY = 0;
 
         document.addEventListener('touchstart', e => {
             touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
         });
 
         document.addEventListener('touchend', e => {
             touchEndX = e.changedTouches[0].screenX;
+            touchEndY = e.changedTouches[0].screenY;
             handleSwipe();
         });
 
         function handleSwipe() {
-            if (touchEndX < touchStartX - 50 && currentEpisode < totalEpisodes) {
-                changeEpisode(1);
-            }
-            if (touchEndX > touchStartX + 50 && currentEpisode > 1) {
-                changeEpisode(-1);
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+            
+            // Only trigger swipe if horizontal movement is greater than vertical
+            // This prevents episode change when scrolling up/down
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX < 0 && currentEpisode < totalEpisodes) {
+                    // Swipe left - next episode
+                    changeEpisode(1);
+                }
+                if (diffX > 0 && currentEpisode > 1) {
+                    // Swipe right - previous episode
+                    changeEpisode(-1);
+                }
             }
         }
     </script>
