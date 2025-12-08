@@ -148,6 +148,35 @@
             font-weight: 600;
             color: #666;
             font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .reset-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reset-button:hover {
+            transform: translateY(-2px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.5);
+        }
+
+        .reset-button:active {
+            transform: translateY(0) scale(1);
         }
 
         .content {
@@ -368,7 +397,10 @@
             <div class="progress-bar-bg">
                 <div class="progress-bar" id="progressBar" style="width: 7.7%;"></div>
             </div>
-            <div class="episode-counter" id="episodeCounter">Episodio 1 di 13</div>
+            <div class="episode-counter">
+                <span id="episodeCounter">Episodio 1 di 13</span>
+                <button id="resetBtn" class="reset-button" onclick="resetToStart()" title="Torna all'inizio">🏠</button>
+            </div>
         </div>
 
         <div class="content">
@@ -550,7 +582,7 @@
                     <img src="episode_13.png" alt="La Metamorfosi" class="episode-image" />
                 </div>
                 <div class="story-text">
-                    20 dicembre 2025. Il suo compleanno. Ma anche qualcosa di più grande. In quel momento speciale, mentre rileggevano insieme la loro storia, sentirono qualcosa cambiare. Il bozzolo si aprì. Non erano più gli stessi bruchi nervosi del cinema di un anno prima. "Guarda" sussurrò lui, indicando il cielo. Due farfalle volavano nel tramonto invernale. "Siamo noi" disse lei con gli occhi lucidi. "La storia dei bruchi è finita. Ma la storia delle farfalle... sta solo iniziando." Si abbracciarono. Per la prima volta, l'abbraccio era reale. Presente. Vero. "Buon compleanno, amore mio" disse lui. "Buon primo giorno, farfalla mia" rispose lei. E volarono. Insieme. Per sempre. ∞🦋
+                    20 dicembre 2025. Il suo compleanno. Ma anche qualcosa di più grande. In quel momento speciale, mentre rileggevano insieme la loro storia, sentirono qualcosa cambiare. Il bozzolo si aprì. Non erano più gli stessi bruchi nervosi del cinema di un anno prima. "Guarda" sussurrò lui, indicando il cielo. Due farfalle volavano nel tramonto invernale. "Siamo noi" disse lei con gli occhi lucidi. "La storia dei bruchi è finita. Ma la storia delle farfalle... sta solo iniziando." Si abbracciarono stretti. Un abbraccio che sapeva di trasformazione, di promesse mantenute, di futuro. "Buon compleanno, amore mio" disse lui. "Buon primo giorno, farfalla mia" rispose lei. E volarono. Insieme. Per sempre. ∞🦋
                 </div>
             </div>
 
@@ -656,6 +688,11 @@
             currentEpisode += direction;
             if (currentEpisode < 1) currentEpisode = 1;
             if (currentEpisode > totalEpisodes) currentEpisode = totalEpisodes;
+            updateEpisode();
+        }
+
+        function resetToStart() {
+            currentEpisode = 1;
             updateEpisode();
         }
 
