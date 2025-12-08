@@ -201,6 +201,9 @@
 
         .episode-image {
             max-width: 100%;
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
             height: auto;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
@@ -263,6 +266,10 @@
 
         /* Mobile Responsive */
         @media (max-width: 768px) {
+            .episode-image {
+                max-height: 400px;
+            }
+
             .header h1 {
                 font-size: 2em;
             }
@@ -291,6 +298,10 @@
         }
 
         @media (max-width: 480px) {
+            .episode-image {
+                max-height: 300px;
+            }
+
             body {
                 padding: 10px;
             }
@@ -546,27 +557,40 @@
 
         // Try to autoplay music on page load
         window.addEventListener('load', function() {
-            // Attempt autoplay
-            backgroundMusic.play().then(() => {
-                musicIcon.textContent = '🎶';
-                musicText.textContent = 'Pausa Musica';
-                musicToggle.classList.add('playing');
-                isPlaying = true;
-            }).catch(error => {
-                // Autoplay blocked by browser - wait for user interaction
-                console.log('Autoplay bloccato. In attesa di interazione utente.');
-                // Try again on first user interaction
-                document.addEventListener('click', function playOnFirstClick() {
-                    backgroundMusic.play().then(() => {
-                        musicIcon.textContent = '🎶';
-                        musicText.textContent = 'Pausa Musica';
-                        musicToggle.classList.add('playing');
-                        isPlaying = true;
-                    }).catch(e => console.log('Impossibile riprodurre audio'));
-                    // Remove listener after first attempt
-                    document.removeEventListener('click', playOnFirstClick);
-                }, { once: true });
-            });
+            // Set volume first
+            backgroundMusic.volume = 0.2;
+            
+            // Attempt immediate autoplay
+            const playPromise = backgroundMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    musicIcon.textContent = '🎶';
+                    musicText.textContent = 'Pausa Musica';
+                    musicToggle.classList.add('playing');
+                    isPlaying = true;
+                }).catch(error => {
+                    console.log('Autoplay bloccato dal browser');
+                    // Try on ANY user interaction
+                    const startMusic = () => {
+                        backgroundMusic.play().then(() => {
+                            musicIcon.textContent = '🎶';
+                            musicText.textContent = 'Pausa Musica';
+                            musicToggle.classList.add('playing');
+                            isPlaying = true;
+                        }).catch(e => console.log('Impossibile riprodurre'));
+                        
+                        // Remove all listeners after first successful play
+                        document.removeEventListener('click', startMusic);
+                        document.removeEventListener('touchstart', startMusic);
+                        document.removeEventListener('scroll', startMusic);
+                    };
+                    
+                    document.addEventListener('click', startMusic, { once: true });
+                    document.addEventListener('touchstart', startMusic, { once: true });
+                    document.addEventListener('scroll', startMusic, { once: true });
+                });
+            }
         });
 
         musicToggle.addEventListener('click', function() {
